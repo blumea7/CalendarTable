@@ -64,15 +64,15 @@ SELECT
 	, WeekOfYearInt = DATEPART(wk, [Date])
 		/*
 			Sample values of computation of WeekOfMonth
-			Var	or Statement		|	Value		|	Description or Comment
+			Var	or Statement	|	Value	|	Description or Comment
 			===============================================================
-			[Date]	     		    | 2024-12-31	| Date currently being considered
+			[Date]	     		| 2024-12-31	| Date currently being considered
 			EOMONTH([Date],-1)      | 2024-11-30	| 2nd argumnet represents the months before or after the first argument.
-									|				| So in words, this statement is equivalent to End of Month of 1 month prior 2010-12
-									|				| or End of Month of 2009-11
+						|		| So in words, this statement is equivalent to End of Month of 1 month prior 2010-12
+						|		| or End of Month of 2009-11
 			StartOfMonth            | 2010-12-01	| Add 1 day to EOMONTH(@iterator,-1) 
-			BaselineWeek			| 49			| Week of Year of 2010-12-01
-			WeekOfMonth 			| 5				| Week of Month of 2010-12-31
+			BaselineWeek		| 49		| Week of Year of 2010-12-01
+			WeekOfMonth 		| 5		| Week of Month of 2010-12-31
 		*/
 	, StartofMonth = DATEADD(Day, 1, EOMONTH([Date],-1))
 	, BaselineWeek = DATEPART(wk, DATEADD(Day, 1, EOMONTH([Date],-1))) -- BaselineWeek = DATEPART(wk, StartofMonth)
@@ -135,16 +135,16 @@ WHILE @iterator <= @end_date
 		/*
 			Sample values of an iteration for computation of @week_of_month: 
 
-			Var	or Statement		|	Value		|	Description or Comment
+			Var	or Statement	|	Value	|	Description or Comment
 			===============================================================
-			@itertor			    | 2024-12-31	| Date currently being iterated
+			@itertor		| 2024-12-31	| Date currently being iterated
 			EOMONTH(@iterator,-1)   | 2024-11-30	| 2nd argumnet represents the months before or after the first argument.
-									|				| So in words, this statement is equivalent to End of Month of 1 month prior 2010-12
-									|				| or End of Month of 2009-11
+						|		| So in words, this statement is equivalent to End of Month of 1 month prior 2010-12
+						|		| or End of Month of 2009-11
 			@start_of_month         | 2024-12-01	| Add 1 day to EOMONTH(@iterator,-1) 
-			@baseline_week			| 49			| Week of Year of 2010-12-01
-			@week_of_iterator		| 53			| Week of Year of 210-12-31
-			@week_of_month			| 5				| Week of Month of 2010-12-31
+			@baseline_week		| 49		| Week of Year of 2010-12-01
+			@week_of_iterator	| 53		| Week of Year of 210-12-31
+			@week_of_month		| 5		| Week of Month of 2010-12-31
 		*/
 
 		-- Start of Computation for @week_of_month
