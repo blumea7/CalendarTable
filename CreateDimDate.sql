@@ -78,10 +78,6 @@ SELECT
 	, StartofMonth = DATEADD(Day, 1, EOMONTH([Date],-1))
 	, BaselineWeek = DATEPART(wk, DATEADD(Day, 1, EOMONTH([Date],-1))) -- BaselineWeek = DATEPART(wk, StartofMonth)
 	, [DayName] = UPPER(DATENAME(dw, [Date]))
-	, CurrentDayIndicator = CASE WHEN [Date] = FORMAT(GETDATE(),'yyyy-MM-dd') 
-				     THEN 'Current Date' 
-				     ELSE 'Not Current Date'
-				     END
 FROM DatesCTE
 )
 
@@ -108,6 +104,10 @@ SELECT
 	, [DayOfWeek] = DATEPART(dw, [Date])
 	, [DayName] = [DayName]
 	, ShortDayName = LEFT([DayName],3)
+	, CurrentDayIndicator = CASE WHEN [Date] = FORMAT(GETDATE(),'yyyy-MM-dd') 
+				     THEN 'Current Date' 
+				     ELSE 'Not Current Date'
+				     END
 FROM DateVariablesCTE 
 
 
