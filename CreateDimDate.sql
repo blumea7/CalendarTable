@@ -32,6 +32,7 @@ CREATE TABLE dbo.DimDate (
 	, [DayOfWeek] int NOT NULL -- 1 to 7
 	, [DayName] varchar(10) NOT NULL -- SUNDAY TO SATURDAY
 	, ShortDayName char(3) NOT NULL -- SUN TO SAT
+	, CurrentDayIndicator varchar(16) NOT NULL
 	CONSTRAINT PK_DimDate_DateKey PRIMARY KEY CLUSTERED (DateKey ASC)
 )
 
@@ -77,7 +78,10 @@ SELECT
 	, StartofMonth = DATEADD(Day, 1, EOMONTH([Date],-1))
 	, BaselineWeek = DATEPART(wk, DATEADD(Day, 1, EOMONTH([Date],-1))) -- BaselineWeek = DATEPART(wk, StartofMonth)
 	, [DayName] = UPPER(DATENAME(dw, [Date]))
-
+	, CurrentDayIndicator = CASE WHEN [Date] = FORMAT(GETDATE(),'yyyy-MM-dd') 
+				     THEN 'Current Date' 
+				     ELSE 'Not Current Date'
+				     END
 FROM DatesCTE
 )
 
@@ -176,6 +180,10 @@ WHILE @iterator <= @end_date
 			, DATEPART(dw, @iterator) -- DayofWeek
 			, UPPER(DATENAME(dw, @iterator)) -- DayName
 			, UPPER(LEFT(DATENAME(dw, @iterator),3)) -- ShortDayName
+			, CASE WHEN @iterator = FORMAT(GETDATE(),'yyyy-MM-dd') 
+				   THEN 'Current Date' 
+				   ELSE 'Not Current Date'
+				   END
 		)
 		SET @iterator = DATEADD(day, 1,  @iterator)
 	END
