@@ -58,27 +58,29 @@ Dimension Table representing a Calendar of year 2024 which includes derived date
 |     Index Space Used    |     32 KB                    |
 
 #### Columns
-|     Key            |     Column Name       |     Description                                                                        |     Data Type    |     Length    |     Allow Nulls    |     References        |
-|--------------------|-----------------------|----------------------------------------------------------------------------------------|------------------|---------------|--------------------|-----------------------|
-|     Primary Key    |     DateKey           |                                                                                        |     char         |     8         |                    |     dbo.DimHoliday    |
-|                    |     Date              |     Date in   yyyy-mm-dd format                                                        |     Date         |     3         |                    |                       |
-|                    |     Year              |     Year of the date.                                                                  |     int          |     4         |                    |                       |
-|                    |     YearHalfID        |     Concatenated   string containing year and year half.                               |     char         |     6         |                    |                       |
-|                    |     YearHalf          |     Identifies whether   the date belongs in the first or second half of the year.     |     int          |     4         |                    |                       |
-|                    |     QuarterID         |     Concatenated   string containing year and quarter.                                 |     char         |     6         |                    |                       |
-|                    |     Quarter           |     Quarter which the   date belongs ( 1 to 4).                                        |     int          |     4         |                    |                       |
-|                    |     MonthID           |     Concatenated   string containing year and month.                                   |     char         |     6         |                    |                       |
-|                    |     Month             |     Month of the date   expressed in numbers from 1 to 12.                             |     int          |     4         |                    |                       |
-|                    |     MonthName         |     Month of the date   in words.                                                      |     varchar      |     10        |                    |                       |
-|                    |     ShortMonthName    |     Shortened month   name.                                                            |     char         |     3         |                    |                       |
-|                    |     WeekID            |     Concatenated   string containing year and week number.                             |     char         |     7         |                    |                       |
-|                    |     WeekOfYear        |     Week of the year   the date falls (1 to 52 or 53).                                 |     int          |     4         |                    |                       |
-|                    |     WeekOfMonth       |     Week of the month   the date falls (1 to 4, 5 or 6).                               |     int          |     4         |                    |                       |
-|                    |     DayOfYear         |     Day of year the   date falls (1 to 365 or 366).                                    |     int          |     4         |                    |                       |
-|                    |     DayOfMonth        |     Day of month the   date falls (1 to 28, 29, 30 or 31).                             |     int          |     4         |                    |                       |
-|                    |     DayOfWeek         |     Day of week the   date falls (1 to 7).                                             |     int          |     4         |                    |                       |
-|                    |     DayName           |     Month of the Day   in words                                                        |     varchar      |     10        |                    |                       |
-|                    |     ShortDayName      |     Shortened day   name.                                                              |     char         |     3         |                    |                       |
+|     Key            |     Column Name            |     Description                                                                        |     Data Type    |     Length    |     Allow Nulls    |     References        |
+|--------------------|----------------------------|----------------------------------------------------------------------------------------|------------------|---------------|--------------------|-----------------------|
+|     Primary Key    |     DateKey                |                                                                                        |     char         |     8         |                    |     dbo.DimHoliday    |
+|                    |     Date                   |     Date in   yyyy-mm-dd format                                                        |     Date         |     3         |                    |                       |
+|                    |     Year                   |     Year of the date.                                                                  |     int          |     4         |                    |                       |
+|                    |     YearHalfID             |     Concatenated   string containing year and year half.                               |     char         |     6         |                    |                       |
+|                    |     YearHalf               |     Identifies whether   the date belongs in the first or second half of the year.     |     int          |     4         |                    |                       |
+|                    |     QuarterID              |     Concatenated   string containing year and quarter.                                 |     char         |     6         |                    |                       |
+|                    |     Quarter                |     Quarter which the   date belongs ( 1 to 4).                                        |     int          |     4         |                    |                       |
+|                    |     MonthID                |     Concatenated   string containing year and month.                                   |     char         |     6         |                    |                       |
+|                    |     Month                  |     Month of the date   expressed in numbers from 1 to 12.                             |     int          |     4         |                    |                       |
+|                    |     MonthName              |     Month of the date   in words.                                                      |     varchar      |     10        |                    |                       |
+|                    |     ShortMonthName         |     Shortened month   name.                                                            |     char         |     3         |                    |                       |
+|                    |     WeekID                 |     Concatenated   string containing year and week number.                             |     char         |     7         |                    |                       |
+|                    |     WeekOfYear             |     Week of the year   the date falls (1 to 52 or 53).                                 |     int          |     4         |                    |                       |
+|                    |     WeekOfMonth            |     Week of the month   the date falls (1 to 4, 5 or 6).                               |     int          |     4         |                    |                       |
+|                    |     DayOfYear              |     Day of year the   date falls (1 to 365 or 366).                                    |     int          |     4         |                    |                       |
+|                    |     DayOfMonth             |     Day of month the   date falls (1 to 28, 29, 30 or 31).                             |     int          |     4         |                    |                       |
+|                    |     DayOfWeek              |     Day of week the   date falls (1 to 7).                                             |     int          |     4         |                    |                       |
+|                    |     DayName                |     Month of the Day   in words                                                        |     varchar      |     10        |                    |                       |
+|                    |     ShortDayName           |     Shortened day   name.                                                              |     char         |     3         |                    |                       |
+|                    |     CurrentDayIndicator    |     Flags users if   the current row instance describes current date                   |     varchar      |     16        |                    |                       |
+
 
 #### Indexes
 |     Index                 |     Description                             |     Primary    |     Unique    |
