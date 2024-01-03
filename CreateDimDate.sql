@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS dbo.DimDate
 -- Create Date Dimension Table
 
 CREATE TABLE dbo.DimDate (
-	DateKey char(8) -- 20230101
+	DateKey int -- 20230101
 	, [Date] date UNIQUE NOT NULL -- 2023-01-01
 	, [Year] int NOT NULL -- 2023
 	, YearHalfID char(6) NOT NULL -- 2023H1
@@ -85,7 +85,7 @@ FROM DatesCTE
 
 INSERT INTO dbo.DimDate
 SELECT
-	DateKey = CONCAT([Year], MonthNum, DayNum)
+	DateKey = CAST(CONCAT([Year], MonthNum, DayNum) AS INT)
 	, [Date] = [Date]
 	, [Year] = DATEPART(yyyy, [Date])
 	, YearHalfID = CONCAT([Year], YearHalfChar)
@@ -161,7 +161,7 @@ WHILE @iterator <= @end_date
 
 		INSERT INTO dbo.DimDate 
 		VALUES(
-			CONCAT(@year, @month_num, @day_num) -- DateKey
+			CAST(CONCAT([Year], MonthNum, DayNum) AS INT) -- DateKey
 			, @iterator -- Date
 			, DATEPART(yyyy,@iterator) -- Year
 			, @year + @year_half -- YearHalfID
