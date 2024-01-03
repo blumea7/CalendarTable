@@ -84,76 +84,72 @@ WHERE
 
 ;WITH ComputationCTE AS (
 		SELECT
-		Year
+		[Year]
 		, a = [Year]%19
 		, b = [Year]/100
 		, c = [Year]%100
 		, d = [Year]/400
-		, e = ([Year]/100) % 4
+		, e = ([Year]/100)%4
 		, f = ([Year]/100 + 8)/25
+		, g = (8*[Year]/100 + 13)/25   --	, g = (8*b+13)/25
+		-- h = (19*a + b - d - ((b - f + 1)/3) + 15 ) % 30
+		, h = ( 19*([Year]%19) 
+			  + [Year]/100
+			  - [Year]/400
+			  - (([Year]/100) - ([Year]/100 + 8)/25 + 1)/3
+			  + 15 ) % 30
+		, i =  ([Year]%100)/4 -- i = c/4
+		, k = ([Year]%100)%4 -- k = c%4
+		-- l = (32 + 2*e + 2*i - h -k)%7
+		, l = (	32  
+				+ 2*(([Year]/100)%4)
+				+ 2* (([Year]%100)/4)
+				- (( 19*([Year]%19) + [Year]/100 - [Year]/400 - (([Year]/100) - ([Year]/100 + 8)/25 + 1)/3 + 15 ) % 30)
+			  ) % 7
+		--  m = (a + 11*h + 19*l)/453
+		, m = (
+				[Year]%19
+				+ 11* (( 19*([Year]%19) + [Year]/100- [Year]/400 - (([Year]/100) - ([Year]/100 + 8)/25 + 1)/3 + 15 ) % 30)
+				+ 19* (( 32  + 2*(([Year]/100)%4) + 2* (([Year]%100)/4) - (( 19*([Year]%19) + [Year]/100 - [Year]/400 - (([Year]/100) - ([Year]/100 + 8)/25 + 1)/3 + 15 ) % 30)) % 7)
+			  )/453
+
 	FROM dbo.DimDate
-	GROUP BY Year
+	GROUP BY [Year] 
 )
 
 , ComputationCTE2 AS (
 	SELECT
-	*
-	, g = (8*b+13)/25
-	, h = (19*a + b - d - ((b - f + 1)/3) + 15 ) % 30
-	, i = c/4
-	, k = c % 4
-	FROM ComputationCTE 
+		*
+		, n = (h + l - 7*m +90)/25 -- Month when Easter Sunday occurs
+		-- p = (h + l - 7*m + 33*n + 19)%32
+		, p = ( h + l - 7*m + 33*((h + l - 7*m +90)/25) + 19) % 32 -- Day of Easter Sunday
+
+	FROM ComputationCTE
 )
+
 
 , ComputationCTE3 AS (
 	SELECT 
 		*
-		, l = (32 + 2*e + 2*i - h -k)%7
+		, EasterSundayDate = DATEFROMPARTS([Year], n, p)
 	FROM ComputationCTE2
 )
 
-, ComputationCTE4 AS (
-	SELECT
-		*
-		, m = (a + 11*h + 19*l)/453
-	FROM ComputationCTE3
-)
-
-, ComputationCTE5 AS (
-	SELECT
-		*
-		, n = (h + l - 7*m +90)/25 -- Month when Easter Sunday occurs
-	FROM ComputationCTE4
-)
-
-, ComputationCTE6 AS (
-	SELECT
-		*
-		, p = (h + l - 7*m + 33*n + 19)%32 -- Day of Easter Sunday
-	FROM ComputationCTE5
-)
-
-, ComputationCTE7 AS (
-	SELECT 
-		*
-		, EasterSundayDate = DATEFROMPARTS([Year], n, p)
-	FROM ComputationCTE6
-)
 
 , LentenHolidays AS ( 
 SELECT  [Date] = EasterSundayDate, [Name] = 'Easter Sunday', [Type] = 'Regular'
-FROM ComputationCTE7
+FROM ComputationCTE3
 UNION ALL 
 SELECT  [Date] = DATEADD(day, -1, EasterSundayDate) , [Name] = 'Black Saturday', [Type] = 'Special Non-Working'
-FROM ComputationCTE7
+FROM ComputationCTE3
 UNION ALL 
 SELECT  [Date] = DATEADD(day, -2, EasterSundayDate) , [Name] = 'Good Friday', [Type] = 'Regular'
-FROM ComputationCTE7
+FROM ComputationCTE3
 UNION ALL 
-SELECT  [Date] = DATEADD(day, -3,  EasterSundayDate) , [Name] = 'Good Saturday', [Type] = 'Regular'
-FROM ComputationCTE7 
+SELECT  [Date] = DATEADD(day, -3,  EasterSundayDate) , [Name] = 'Maundy Thursday', [Type] = 'Regular'
+FROM ComputationCTE3
 )
-
+	
 -- Populate DimHoliday Table with lenten holidays
 INSERT INTO dbo.DimHoliday
 SELECT
