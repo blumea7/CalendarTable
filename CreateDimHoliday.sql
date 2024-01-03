@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS dbo.DimHoliday
 
 CREATE TABLE dbo.DimHoliday (
 	HolidayID int IDENTITY(1,1) -- Autoincrementing surrogate key
-	, DateKey char(8) UNIQUE NOT NULL -- FK
+	, DateKey int NOT NULL 
 	, [Name] varchar(50) NOT NULL
 	, [Type] varchar(30) NOT NULL
 	CONSTRAINT PK_DimHoliday_HolidayID PRIMARY KEY CLUSTERED (HolidayID ASC) 
