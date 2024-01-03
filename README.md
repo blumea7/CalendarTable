@@ -60,7 +60,7 @@ Dimension Table representing a Calendar of year 2024 which includes derived date
 #### Columns
 |     Key            |     Column Name            |     Description                                                                        |     Data Type    |     Length    |     Allow Nulls    |     References        |
 |--------------------|----------------------------|----------------------------------------------------------------------------------------|------------------|---------------|--------------------|-----------------------|
-|     Primary Key    |     DateKey                |                                                                                        |     char         |     8         |                    |     dbo.DimHoliday    |
+|     Primary Key    |     DateKey                |                                                                                        |     int          |     4         |                    |     dbo.DimHoliday    |
 |                    |     Date                   |     Date in   yyyy-mm-dd format                                                        |     Date         |     3         |                    |                       |
 |                    |     Year                   |     Year of the date.                                                                  |     int          |     4         |                    |                       |
 |                    |     YearHalfID             |     Concatenated   string containing year and year half.                               |     char         |     6         |                    |                       |
@@ -120,7 +120,7 @@ Dimension Table containing the holidays for the dates in DimDate table.
 |     Key            |     Column Name    |     Description                                              |     Data Type    |     Length    |     Allow Nulls    |     References    |
 |--------------------|--------------------|--------------------------------------------------------------|------------------|---------------|--------------------|-------------------|
 |     Primary Key    |     HolidayID      |     Surrogate key for   unique identification of holiday.    |     int          |     4         |                    |                   |
-|     Foreign Key    |     DateKey        |     Connecting key to   DimDate.                             |     char         |     8         |                    |     DimDate       |
+|     Foreign Key    |     DateKey        |     Connecting key to   DimDate.                             |     int          |     4         |                    |     DimDate       |
 |                    |     Name           |     Name of holiday.                                         |     char         |     50        |                    |                   |
 |                    |     Type           |     Type of holiday.                                         |     varchar      |     30        |                    |                   |
 
